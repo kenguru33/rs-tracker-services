@@ -8,10 +8,17 @@
     "npm-run-all": "^4.1.5"
   },
   "scripts": {
+    "secrets:create": "kubectl create secret generic kystverket-auth --from-env-file=.secrets ",
+    "secrets:delete": "kubectl delete secret kystverket-auth",
     "bootstrap": "lerna bootstrap",
-    "build:aisdata": "lerna exec --scope aisdata npm run build:docker",
-    "build:aisdata-collector-kystverket": "lerna exec --scope aisdata-collector-kystverket npm run build:docker",
-    "build:common": "lerna exec --scope @redningsselskapet/rs-tracker-services-common npm run build",
-    "build:all": "run-p build:aisdata build:aisdata-collector-kystverket build:common"
+    "build:aisdata": "env-cmd lerna exec --scope aisdata npm run build:docker",
+    "build:aisdata-collector-kystverket": "env-cmd lerna exec --scope aisdata-collector-kystverket npm run build:docker",
+    "build:common": "env-cmd lerna exec --scope @redningsselskapet/rs-tracker-services-common npm run build",
+    "build:all": "run-p build:aisdata build:aisdata-collector-kystverket build:common",
+    "dev:up": "env-cmd tilt up",
+    "dev:down": "env-cmd tilt down"
+  },
+  "dependencies": {
+    "env-cmd": "^10.1.0"
   }
 }

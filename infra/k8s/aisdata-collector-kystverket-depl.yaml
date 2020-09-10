@@ -17,16 +17,19 @@ spec:
           image: banker.azurecr.io/aisdata-collector-kystverket
           resources:
             limits:
-              memory: "1Gi"
-              cpu: "0.5"
+              memory: "2Gi"
+              cpu: "1"
           env:
             - name: KYSTVERKET_LOGIN
-              value: 'redning'
+              valueFrom:
+                secretKeyRef:
+                  name: kystverket-auth
+                  key: username
             - name: KYSTVERKET_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: kystverket-secret
-                  key: KYSTVERKET_PASSWORD
+                  name: kystverket-auth
+                  key: password
       imagePullSecrets:
         - name: azurecr-secret
 ---

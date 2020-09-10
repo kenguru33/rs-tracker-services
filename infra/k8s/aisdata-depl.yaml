@@ -17,8 +17,8 @@ spec:
           image: banker.azurecr.io/aisdata
           resources:
             limits:
-              memory: "1Gi"
-              cpu: "0.5"
+              memory: "2Gi"
+              cpu: "1"
       imagePullSecrets:
         - name: azurecr-secret
       initContainers:
