@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aisdata-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aisdata
+  template:
+    metadata:
+      labels:
+        app: aisdata
+    spec:
+      containers:
+        - name: aisdata
+          image: banker.azurecr.io/aisdata
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "0.5"
+      imagePullSecrets:
+        - name: azurecr-secret
+      initContainers:
+        - name: init-aisdata
+          image: busybox
+          command:
+            [
+              "sh",
+              "-c",
+              "until nc -z -w 2 nats-streaming-srv:4222; do echo waiting for nats streaming server; sleep 2; done;",
+            ]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aisdata-srv
+spec:
+  selector:
+    app: aisdata
+  ports:
+    - name: aisdata
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

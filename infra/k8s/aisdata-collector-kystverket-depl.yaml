@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aisdata-collector-kystverket-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aisdata-collector-kystverket
+  template:
+    metadata:
+      labels:
+        app: aisdata-collector-kystverket
+    spec:
+      containers:
+        - name: aisdata-collector-kystverket
+          image: banker.azurecr.io/aisdata-collector-kystverket
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "0.5"
+          env:
+            - name: KYSTVERKET_LOGIN
+              value: 'redning'
+            - name: KYSTVERKET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: kystverket-secret
+                  key: KYSTVERKET_PASSWORD
+      imagePullSecrets:
+        - name: azurecr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aisdata-collector-kystverket-srv
+spec:
+  selector:
+    app: aisdata-collector-kystverket
+  ports:
+    - name: aisdata-collector-kystverket
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
