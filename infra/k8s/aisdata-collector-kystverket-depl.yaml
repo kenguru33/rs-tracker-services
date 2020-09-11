@@ -20,16 +20,16 @@ spec:
               memory: "2Gi"
               cpu: "1"
           env:
-            - name: KYSTVERKET_LOGIN
+            - name: KYSTVERKET_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: kystverket-auth
-                  key: username
+                  key: KYSTVERKET_USERNAME
             - name: KYSTVERKET_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: kystverket-auth
-                  key: password
+                  key: KYSTVERKET_PASSWORD
       imagePullSecrets:
         - name: azurecr-secret
 ---
