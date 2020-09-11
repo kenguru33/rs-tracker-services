@@ -15,6 +15,7 @@
     "build:aisdata-collector-kystverket": "env-cmd lerna exec --scope aisdata-collector-kystverket npm run build:docker",
     "build:common": "env-cmd lerna exec --scope @redningsselskapet/rs-tracker-services-common npm run build",
     "build:all": "run-p build:aisdata build:aisdata-collector-kystverket build:common",
+    "clean": "lerna clean",
     "dev:up": "env-cmd tilt up",
     "dev:down": "env-cmd tilt down"
   },

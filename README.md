@@ -60,8 +60,7 @@ Run install scripts in every package
 ```bash
 npm run bootstrap
 ```
-
-## 
+> use **npm run clean** to clean all packages 
 
 ## 3 - Build
 
