@@ -3,6 +3,8 @@
    1. Build environment
    
    2. Kubernetes
+   
+   3. Docker
 
 2. Bootstrap
 
@@ -51,7 +53,24 @@ npm run secrets:create
 
 > use **npm run secrets:delete** to delete all keys 
 
-## 
+
+
+### 1.3 - Docker
+
+Enable experimental feature to be able to squash images. The reason is that the layer will contains the npm token. By squashing the image, these layers will be removed and the token is not exposed.
+
+
+
+Enable docker experimental feature by createing the file /etc/docker/daemon.json, rr if you are on Docker-Desktop, enable experimental features from the gui tool.
+
+```json
+# /etc/docker/daemon.json
+{
+    "experimental": true
+}
+```
+
+
 
 ## 2 - Bootstrap
 
@@ -60,6 +79,7 @@ Run install scripts in every package
 ```bash
 npm run bootstrap
 ```
+
 > use **npm run clean** to clean all packages 
 
 ## 3 - Build

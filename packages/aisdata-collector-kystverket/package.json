@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "build:docker": "docker build -t banker.azurecr.io/aisdata-collector-kystverket --build-arg NPM_TOKEN=$NPM_TOKEN .",
+    "build:docker": "docker build --squash -t banker.azurecr.io/aisdata-collector-kystverket --build-arg NPM_TOKEN=$NPM_TOKEN .",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
