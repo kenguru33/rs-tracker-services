@@ -22,6 +22,7 @@ async function bootstrap() {
       } /* TransportSubscriptionOptions */,
     ),
   };
+  
 
   // hybrid microservice and web application
   const app = await NestFactory.create(AppModule);

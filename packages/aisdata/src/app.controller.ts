@@ -7,7 +7,7 @@ import {
 } from '@redningsselskapet/rs-tracker-services-common';
 import { NatsStreamingContext } from '@nestjs-plugins/nestjs-nats-streaming-transport';
 
-@Controller()
+@Controller('/api/aisdata')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 

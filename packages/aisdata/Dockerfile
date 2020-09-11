@@ -1,4 +1,4 @@
-FROM node:12-buster-slim as build
+FROM node:12-alpine as build
 
 WORKDIR /app
 ARG NPM_TOKEN
@@ -9,8 +9,8 @@ RUN rm -f .npmrc
 COPY . .
 
 # Do multistage build to prevent leaving the npm token in build layer
-FROM node:12-buster-slim
+FROM build
 WORKDIR /app
 COPY --from=build ./app .
 
-CMD ["npm", "start"]
+CMD ["npm", "start:prod"]

@@ -17,7 +17,7 @@ spec:
           image: banker.azurecr.io/aisdata-collector-kystverket
           resources:
             limits:
-              memory: "2Gi"
+              memory: "1Gi"
               cpu: "1"
           env:
             - name: KYSTVERKET_USERNAME

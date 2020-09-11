@@ -17,7 +17,7 @@ spec:
           image: nats-streaming:0.17.0
           resources:
             limits:
-              memory: "2Gi"
+              memory: "1Gi"
               cpu: "1"
           args:
             [

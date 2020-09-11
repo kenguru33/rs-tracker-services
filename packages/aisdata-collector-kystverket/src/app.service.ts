@@ -31,8 +31,6 @@ export class AppService {
   ) {
     this.config = this.configService.get<KystverketConfig>('kystverket');
     const { login, password } = this.config;
-    console.log(login)
-    console.log(password)
     
     this.axiosIntance = this.http.axiosRef;
     axiosIntanceCookiejarSupport(this.axiosIntance);
@@ -112,7 +110,7 @@ export class AppService {
         .emit<string, NewAisdataEvent>(Patterns.NewAisdata, data)
         .subscribe(
           guid => {
-            this.logger.log('published message with guid: ' + guid);
+            this.logger.log('Published message with guid: ' + guid);
           },
           error => console.log(error.message),
         );
