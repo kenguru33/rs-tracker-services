@@ -9,7 +9,7 @@ RUN rm -f .npmrc
 COPY . .
 
 # Do multistage build to prevent leaving the npm token in build layer
-FROM build
+FROM node:12-alpine
 WORKDIR /app
 COPY --from=build ./app .
 
