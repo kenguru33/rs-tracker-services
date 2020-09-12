@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "env-cmd": "^10.1.0",
     "i": "^0.3.6",
     "lerna": "^3.22.1",
     "npm": "^6.14.8",
@@ -19,7 +20,5 @@
     "dev:up": "env-cmd tilt up",
     "dev:down": "env-cmd tilt down"
   },
-  "dependencies": {
-    "env-cmd": "^10.1.0"
-  }
+  "dependencies": {}
 }
