@@ -1,5 +1,5 @@
 export interface Aisdata {
-    mmsi: string,
+    mmsi: string
     lat: number
     lng: number
     sog: number

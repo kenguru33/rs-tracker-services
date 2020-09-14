@@ -6,6 +6,7 @@ import {
   NewAisdataEvent,
 } from '@redningsselskapet/rs-tracker-services-common';
 import { NatsStreamingContext } from '@nestjs-plugins/nestjs-nats-streaming-transport';
+import { AisdataEventTranslator } from './pipes/aisdata-event-translator.pipe';
 
 @Controller('/api/aisdata')
 export class AppController {
@@ -17,11 +18,15 @@ export class AppController {
   }
 
   @EventPattern(Patterns.NewAisdata)
-  newAisdata(
-    @Payload() data: NewAisdataEvent,
+  async newAisdataEventHandler(
+    @Payload(new AisdataEventTranslator()) data: NewAisdataEvent,
     @Ctx() ctx: NatsStreamingContext,
   ) {
-    console.log('new event recevied:' + data.mmsi);
-    ctx.message.ack();
+    try {
+      await this.appService.addAisdata(data)
+      ctx.message.ack();
+    } catch(error) {
+      console.log('validation error')
+    }
   }
 }
