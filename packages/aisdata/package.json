@@ -1,6 +1,6 @@
 {
   "name": "aisdata",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "author": "",
   "private": true,
@@ -28,7 +28,7 @@
     "@nestjs/microservices": "^7.4.4",
     "@nestjs/mongoose": "^7.0.2",
     "@nestjs/platform-express": "^7.0.0",
-    "@redningsselskapet/rs-tracker-services-common": "^0.0.2",
+    "@redningsselskapet/rs-tracker-services-common": "^0.0.3",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "mongoose": "^5.10.5",
