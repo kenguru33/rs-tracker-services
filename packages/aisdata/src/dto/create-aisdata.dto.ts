@@ -24,7 +24,7 @@ export class CreateAisdataDto {
   sog: number;
 
   @IsNumber()
-  @Max(359)
+  @Max(360)
   @Min(0)
   cog: number;
 

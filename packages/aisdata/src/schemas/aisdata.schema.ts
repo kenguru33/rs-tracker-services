@@ -16,11 +16,18 @@ export class Aisdata extends Document {
   @Prop({required: true, min: 0})
   sog: number;
   
-  @Prop({required: true, max: 359, min: 0})
+  @Prop({required: true, max: 360, min: 0})
   cog: number;
   
   @Prop({required: true})
   timeStamp: string;
 }
 
-export const AisdataSchema = SchemaFactory.createForClass(Aisdata).index({mmsi: 1, timeStamp: 1},{uuique: true}).index({createdAt: 1},{expires: '365d'})
+
+export const AisdataSchema = SchemaFactory.createForClass(Aisdata).index({mmsi: 1, timeStamp: 1},{uuique: true}).index({createdAt: 1},{expires: '365d'}).set('toJSON', {
+  transform: function (doc, ret, options) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.__v;
+  }
+}); 

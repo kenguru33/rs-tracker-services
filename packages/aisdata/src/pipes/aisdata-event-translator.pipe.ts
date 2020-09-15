@@ -1,5 +1,5 @@
 import { PipeTransform, ArgumentMetadata, ValidationPipe } from "@nestjs/common";
-import { CreateAisdataDto } from "src/dto/create-aisdata-dto";
+import { CreateAisdataDto } from "src/dto/create-aisdata.dto";
 import { NewAisdataEvent } from "@redningsselskapet/rs-tracker-services-common";
 import { plainToClass } from "class-transformer";
 import { validate, ValidationError } from "class-validator";

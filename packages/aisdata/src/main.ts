@@ -6,8 +6,8 @@ async function bootstrap() {
   const options: CustomStrategy = {
     strategy: new Listener(
       'rs-tracker-services' /* clusterID */,
-      'aisdata-kystverket-listener' /* clientID */,
-      'aisdata' /* queueGroupName */,
+      'aisdata' /* clientID */,
+      'aisdata-queue-group' /* queueGroupName */,
       {
         url: 'http://nats-streaming-srv:4222',
         maxReconnectAttempts: -1, // try forever
