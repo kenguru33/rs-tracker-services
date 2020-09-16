@@ -18,7 +18,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @EventPattern(Patterns.AisdataCreated)
+  @EventPattern(Patterns.NewAisdata)
   async newAisdataEventHandler(
     @Payload(new AisdataEventTranslator()) data: NewAisdataEvent,
     @Ctx() ctx: NatsStreamingContext,

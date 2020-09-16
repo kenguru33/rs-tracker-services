@@ -4,6 +4,7 @@ import { MongooseModule } from '@nestjs/mongoose/dist/mongoose.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AisdataSchema, Aisdata } from './schemas/aisdata.schema';
+import { AisdataCreatedEventPublisherService } from './publishers/aisdata-created-event-publisher.service';
 
 @Module({
   imports: [
@@ -18,6 +19,6 @@ import { AisdataSchema, Aisdata } from './schemas/aisdata.schema';
     ),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AisdataCreatedEventPublisherService],
 })
 export class AppModule {}

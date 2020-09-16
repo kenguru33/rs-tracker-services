@@ -3,23 +3,28 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Aisdata } from './schemas/aisdata.schema';
 import { Model } from 'mongoose';
 import { CreateAisdataDto } from './dto/create-aisdata.dto';
-import { NatsStreamingContext, Publisher } from '@nestjs-plugins/nestjs-nats-streaming-transport';
+import {
+  NatsStreamingContext,
+  Publisher,
+} from '@nestjs-plugins/nestjs-nats-streaming-transport';
 import { AisdataCreatedEvent } from '@redningsselskapet/rs-tracker-services-common';
 import { plainToClass } from 'class-transformer';
-import { AisdataCreatedEventDto } from './dto/events/aisdata-created-event.dto';
+import { AisdataCreatedEventPublisherService } from './publishers/aisdata-created-event-publisher.service';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectModel(Aisdata.name) private AisdataModel: Model<Aisdata>, private publisher: Publisher ) {}
-  async addAisdata(createAisdataDto: CreateAisdataDto):Promise<Aisdata> {
-    const model = new this.AisdataModel(createAisdataDto)
-    const result = await model.save()
-    const aisdataCreatedEventDto = plainToClass(AisdataCreatedEventDto, result)
+  constructor(
+    @InjectModel(Aisdata.name) private AisdataModel: Model<Aisdata>,
+    private aisdataCreatedEventPubliser: AisdataCreatedEventPublisherService
+  ) {}
 
-    this.publisher.emit<NatsStreamingContext, AisdataCreatedEvent['data']>(aisdataCreatedEventDto.pattern, aisdataCreatedEventDto.data)
-    console.log(result.toJSON())
-    return result
+  async addAisdata(createAisdataDto: CreateAisdataDto) {
+    const aisdata = new this.AisdataModel(createAisdataDto);
+    const result = await aisdata.save();
+    const aisdataCreatedEvent = plainToClass(AisdataCreatedEvent, result.toJSON())
+    this.aisdataCreatedEventPubliser.publish(aisdataCreatedEvent).subscribe(guid => console.log(guid))
   }
+
   getHello(): string {
     return 'Hello World!';
   }

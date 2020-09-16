@@ -1,8 +1,8 @@
-import { Patterns } from "./patterns.enum";
+import { Patterns } from './patterns.enum';
 
-export interface AisdataCreatedEvent {
-  pattern: Patterns.AisdataCreated // aka subject
-  data: {
+export class AisdataCreatedEvent {
+  pattern: Patterns.AisdataCreated = Patterns.AisdataCreated;
+  constructor(public data: {
     id: string;
     mmsi: string;
     lat: number;
@@ -10,5 +10,5 @@ export interface AisdataCreatedEvent {
     sog: number;
     cog: number;
     timeStamp: string;
-  }
+  }) {}
 }
