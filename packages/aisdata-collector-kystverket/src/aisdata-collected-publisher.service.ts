@@ -9,8 +9,10 @@ export class AisdataCollectedPublisherService {
   constructor(private publisher: Publisher) {}
 
   publish(data: AisdataCollectedEvent['data']): Observable<string> {
+    console.log(data);
     const aisdataCollectedEventDto = new AisdataCollectedEventDto(data);
-    this.publisher.emit<string, AisdataCollectedEvent['data']>(
+    console.log(aisdataCollectedEventDto);
+    return this.publisher.emit<string, AisdataCollectedEvent['data']>(
       aisdataCollectedEventDto.pattern,
       aisdataCollectedEventDto.data,
     );

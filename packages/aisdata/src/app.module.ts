@@ -8,14 +8,14 @@ import { AisdataCreatedEventPublisherService } from './publishers/aisdata-create
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://aisdata-mongo-srv'),
+    MongooseModule.forRoot('mongodb://aisdata-mongo-srv/aisdata'),
     MongooseModule.forFeature([{ name: Aisdata.name, schema: AisdataSchema }]),
     NatsStreamingTransport.forRoot(
-      'rs-tracker-services'/* clusterID */,
-      'aisdata-service-publisher'/* clientID */, 
+      'rs-tracker-services' /* clusterID */,
+      'aisdata-service-publisher' /* clientID */,
       {
         url: 'http://nats-streaming-srv:4222',
-      } /* TransportConnectOptions */
+      } /* TransportConnectOptions */,
     ),
   ],
   controllers: [AppController],

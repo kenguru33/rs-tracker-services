@@ -13,5 +13,7 @@ export class AisdataCollectedEventDto implements AisdataCollectedEvent {
     cog: number;
     timeStamp: string;
   };
-  constructor(data: AisdataCollectedEvent['data'] = null) {}
+  constructor(data: AisdataCollectedEvent['data'] = null) {
+    this.data = data;
+  }
 }
