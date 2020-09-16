@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import config from './config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { NatsStreamingTransport } from '@nestjs-plugins/nestjs-nats-streaming-transport';
+import { AisdataCollectedPublisherService } from './aisdata-collected-publisher.service';
 
 @Module({
   imports: [
@@ -22,6 +23,6 @@ import { NatsStreamingTransport } from '@nestjs-plugins/nestjs-nats-streaming-tr
     ),
   ],
   controllers: [AppController],
-  providers: [AppService, Logger],
+  providers: [AppService, Logger, AisdataCollectedPublisherService],
 })
 export class AppModule {}

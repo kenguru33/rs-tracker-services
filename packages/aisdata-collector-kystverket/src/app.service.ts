@@ -12,9 +12,9 @@ import { validate, validateSync } from 'class-validator';
 import { Aisdata } from './interfaces/aisdata.interface';
 import {
   Patterns,
-  NewAisdataEvent,
+  AisdataCollectedEvent,
 } from '@redningsselskapet/rs-tracker-services-common';
-import { Publisher } from '@nestjs-plugins/nestjs-nats-streaming-transport';
+import { AisdataCollectedPublisherService } from './aisdata-collected-publisher.service';
 
 @Injectable()
 export class AppService {
@@ -27,11 +27,11 @@ export class AppService {
     private configService: ConfigService,
     private http: HttpService,
     private logger: Logger,
-    private publisher: Publisher,
+    private aisdataCollectedPublisher: AisdataCollectedPublisherService,
   ) {
     this.config = this.configService.get<KystverketConfig>('kystverket');
     const { login, password } = this.config;
-    
+
     this.axiosIntance = this.http.axiosRef;
     axiosIntanceCookiejarSupport(this.axiosIntance);
     this.axiosIntance.defaults.withCredentials = true;
@@ -106,14 +106,12 @@ export class AppService {
 
   publishNewAisdata(aisdata: Aisdata[]) {
     aisdata.forEach(data => {
-      this.publisher
-        .emit<string, NewAisdataEvent>(Patterns.NewAisdata, data)
-        .subscribe(
-          guid => {
-            this.logger.log('Published message with guid: ' + guid);
-          },
-          error => console.log(error.message),
-        );
+      this.aisdataCollectedPublisher.publish(data).subscribe(
+        guid => {
+          this.logger.log('Published message with guid: ' + guid);
+        },
+        error => console.log(error.message),
+      );
       this.updateLastPublished(data);
     });
   }
