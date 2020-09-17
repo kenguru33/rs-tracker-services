@@ -1,16 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { EventPattern, Payload, Ctx } from '@nestjs/microservices';
 import {
   Patterns,
   AisdataCollectedEvent,
-  AisdataCreatedEvent,
 } from '@redningsselskapet/rs-tracker-services-common';
 import { NatsStreamingContext } from '@nestjs-plugins/nestjs-nats-streaming-transport';
-import { AisdataCollectedEventTranslator } from './pipes/aisdata-collected-event-translator.pipe';
 import { AisdataCreatedEventPublisherService } from './publishers/aisdata-created-event-publisher.service';
 import { AisdataCreatedEventDto } from './dto/aisdata-created-event.dto';
-import { Aisdata } from './schemas/aisdata.schema';
+import { AisdataCollectedEventDto } from './dto/aisdata-collected-event.dto';
+import { CreateAisdataDto } from './dto/create-aisdata.dto';
 
 @Controller('/api/aisdata')
 export class AppController {
@@ -19,29 +18,24 @@ export class AppController {
     private readonly aisdataCreatedPublisher: AisdataCreatedEventPublisherService,
   ) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
   @EventPattern(Patterns.AisdataCreated)
   async aisdataCreatedHandler(
-    @Payload() data: AisdataCreatedEvent['data'],
+    @Payload(new ValidationPipe())
+    data: AisdataCreatedEventDto,
     @Ctx() ctx: NatsStreamingContext,
   ) {
-    console.log('received data: ', data.id);
+    console.log('received data: ', data);
   }
 
   @EventPattern(Patterns.AisdataCollected)
   async aisdataCollectedEventHandler(
-    @Payload(new AisdataCollectedEventTranslator())
-    data: AisdataCollectedEvent['data'],
+    @Payload(new ValidationPipe())
+    data: CreateAisdataDto,
     @Ctx() ctx: NatsStreamingContext,
   ) {
     try {
       const aisdata = await this.appService.addAisdata(data);
       this.aisdataCreatedPublisher.publish(aisdata.toJSON());
-      console.log('data created: ' + aisdata.id);
       ctx.message.ack();
     } catch (error) {
       console.log(error);

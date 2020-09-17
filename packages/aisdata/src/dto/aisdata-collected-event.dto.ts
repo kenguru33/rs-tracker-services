@@ -1,21 +1,13 @@
+import { AisdataCollectedEvent } from '@redningsselskapet/rs-tracker-services-common';
 import {
-  AisdataCreatedEvent,
-  Patterns,
-} from '@redningsselskapet/rs-tracker-services-common';
-import {
-  IsDataURI,
   IsDateString,
   IsLatitude,
   IsLongitude,
   IsNumber,
   IsNumberString,
-  IsString,
 } from 'class-validator';
 
-export class AisdataCreatedEventDto implements AisdataCreatedEvent {
-  @IsString()
-  id: string;
-
+export class AisdataCollectedEventDto implements AisdataCollectedEvent {
   @IsNumberString()
   mmsi: string;
 

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: aisdata-depl
 spec:
-  replicas: 5
+  replicas: 1
   selector:
     matchLabels:
       app: aisdata
@@ -18,7 +18,7 @@ spec:
           resources:
             limits:
               memory: "1Gi"
-              cpu: "0.2"
+              cpu: "1"
       imagePullSecrets:
         - name: azurecr-secret
       initContainers:

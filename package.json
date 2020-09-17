@@ -17,7 +17,10 @@
     "publish": "lerna publish",
     "clean": "lerna clean",
     "dev:up": "env-cmd tilt up",
-    "dev:down": "env-cmd tilt down"
+    "dev:down": "env-cmd tilt down",
+    "local:dev:aisdata-collector-kystverket": "env-cmd lerna exec --scope aisdata-collector-kystverket npm run start:dev",
+    "local:dev:aisdata": "env-cmd lerna exec --scope aisdata npm run start:dev",
+    "local:dev": "env-cmd lerna exec --ignore @redningsselskapet/rs-tracker-services-common npm run start:dev"
   },
   "dependencies": {}
 }

@@ -32,6 +32,8 @@ export class AppService {
     this.config = this.configService.get<KystverketConfig>('kystverket');
     const { login, password } = this.config;
 
+    console.log('login: ' + login);
+
     this.axiosIntance = this.http.axiosRef;
     axiosIntanceCookiejarSupport(this.axiosIntance);
     this.axiosIntance.defaults.withCredentials = true;
@@ -44,7 +46,7 @@ export class AppService {
   }
 
   @Interval(2000)
-  async fetchAisData() {
+  private async fetchAisData() {
     const { url } = this.config;
     const aisdata: any = (await this.axiosIntance.get(url)).data;
     const transformedAisdata = this.transferToAisdataDto(aisdata);
@@ -104,15 +106,15 @@ export class AppService {
     }
   }
 
-  publishNewAisdata(aisdata: Aisdata[]) {
-    aisdata.forEach(data => {
-      this.aisdataCollectedPublisher.publish(data).subscribe(
+  private publishNewAisdata(aisdata: Aisdata[]) {
+    aisdata.forEach(async data => {
+      const guid = this.aisdataCollectedPublisher.publish(data).subscribe(
         guid => {
-          this.logger.log('Published message with guid: ' + guid);
+          this.updateLastPublished(data);
+          this.logger.log('Published Message with GUID: ' + guid);
         },
-        error => console.log(error.message),
+        error => this.logger.error(error),
       );
-      this.updateLastPublished(data);
     });
   }
 

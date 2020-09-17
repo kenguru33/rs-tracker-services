@@ -1,20 +1,22 @@
 import { Publisher } from '@nestjs-plugins/nestjs-nats-streaming-transport';
 import { Injectable } from '@nestjs/common';
-import { AisdataCollectedEvent } from '@redningsselskapet/rs-tracker-services-common';
+import {
+  AisdataCollectedEvent,
+  Patterns,
+} from '@redningsselskapet/rs-tracker-services-common';
 import { Observable } from 'rxjs';
-import { AisdataCollectedEventDto } from './dto/aisdata-collected-event.dto';
 
 @Injectable()
 export class AisdataCollectedPublisherService {
+  private readonly pattern: Patterns.AisdataCollected =
+    Patterns.AisdataCollected;
+
   constructor(private publisher: Publisher) {}
 
-  publish(data: AisdataCollectedEvent['data']): Observable<string> {
-    console.log(data);
-    const aisdataCollectedEventDto = new AisdataCollectedEventDto(data);
-    console.log(aisdataCollectedEventDto);
-    return this.publisher.emit<string, AisdataCollectedEvent['data']>(
-      aisdataCollectedEventDto.pattern,
-      aisdataCollectedEventDto.data,
+  publish(data: AisdataCollectedEvent): Observable<string> {
+    return this.publisher.emit<string, AisdataCollectedEvent>(
+      this.pattern,
+      data,
     );
   }
 }
