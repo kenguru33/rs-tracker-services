@@ -32,8 +32,6 @@ export class AppService {
     this.config = this.configService.get<KystverketConfig>('kystverket');
     const { login, password } = this.config;
 
-    console.log('login: ' + login);
-
     this.axiosIntance = this.http.axiosRef;
     axiosIntanceCookiejarSupport(this.axiosIntance);
     this.axiosIntance.defaults.withCredentials = true;
@@ -45,7 +43,7 @@ export class AppService {
     this.fetchAisData();
   }
 
-  @Interval(2000)
+  @Interval(5000)
   private async fetchAisData() {
     const { url } = this.config;
     const aisdata: any = (await this.axiosIntance.get(url)).data;
