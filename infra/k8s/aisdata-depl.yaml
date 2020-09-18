@@ -17,19 +17,10 @@ spec:
           image: banker.azurecr.io/aisdata
           resources:
             limits:
-              memory: "1Gi"
-              cpu: "1"
+              memory: '500Mi'
+              cpu: '500m'
       imagePullSecrets:
         - name: azurecr-secret
-      initContainers:
-        - name: init-aisdata
-          image: busybox
-          command:
-            [
-              "sh",
-              "-c",
-              "until nc -z -w 2 nats-streaming-srv:4222; do echo waiting for nats streaming server; sleep 2; done;",
-            ]
 ---
 apiVersion: v1
 kind: Service
