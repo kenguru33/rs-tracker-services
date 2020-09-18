@@ -25,6 +25,7 @@ export class AppController {
     @Ctx() ctx: NatsStreamingContext,
   ) {
     console.log('received data: ', data);
+    ctx.message.ack();
   }
 
   @EventPattern(Patterns.AisdataCollected)
@@ -35,8 +36,9 @@ export class AppController {
   ) {
     try {
       const aisdata = await this.appService.addAisdata(data);
-      this.aisdataCreatedPublisher.publish(aisdata.toJSON());
       ctx.message.ack();
+
+      this.aisdataCreatedPublisher.publish(aisdata.toJSON());
     } catch (error) {
       console.log(error);
     }
