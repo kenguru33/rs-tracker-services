@@ -1,4 +1,10 @@
-import { Controller, Get, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AppService } from './app.service';
 import { EventPattern, Payload, Ctx } from '@nestjs/microservices';
 import {
@@ -10,6 +16,7 @@ import { AisdataCreatedEventPublisherService } from './publishers/aisdata-create
 import { AisdataCreatedEventDto } from './dto/aisdata-created-event.dto';
 import { AisdataCollectedEventDto } from './dto/aisdata-collected-event.dto';
 import { CreateAisdataDto } from './dto/create-aisdata.dto';
+import { QueryAisdataByMmsiDto } from './dto/query-aisdata-by-mmsi.dto';
 
 @Controller('/api/aisdata')
 export class AppController {
@@ -17,6 +24,13 @@ export class AppController {
     private readonly appService: AppService,
     private readonly aisdataCreatedPublisher: AisdataCreatedEventPublisherService,
   ) {}
+
+  @Get(':mmsi/:startTime/:endTime')
+  async getAisdataByMmsi(
+    @Param(new ValidationPipe()) query: QueryAisdataByMmsiDto,
+  ) {
+    return query;
+  }
 
   @EventPattern(Patterns.AisdataCreated)
   async aisdataCreatedHandler(
