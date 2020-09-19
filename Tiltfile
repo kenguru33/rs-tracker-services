@@ -19,3 +19,5 @@ build_args={'NPM_TOKEN': os.environ['NPM_TOKEN']},
 live_update=[
 	sync('packages/aisdata-collector-kystverket/src', '/app/src')
 ])
+
+allow_k8s_contexts('Aks-Cluster-1')
