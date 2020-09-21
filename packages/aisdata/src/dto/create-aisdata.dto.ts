@@ -1,3 +1,4 @@
+import { IsCog, IsMmsi, IsSog } from '@redningsselskapet/class-validator-ais';
 import {
   IsNumberString,
   IsNumber,
@@ -9,8 +10,7 @@ import {
   Min,
 } from 'class-validator';
 export class CreateAisdataDto {
-  @IsNumberString({ no_symbols: true })
-  @Length(9, 9)
+  @IsMmsi()
   mmsi: string;
 
   @IsLatitude()
@@ -19,13 +19,10 @@ export class CreateAisdataDto {
   @IsLongitude()
   lng: number;
 
-  @IsNumber()
-  @Min(0)
+  @IsSog()
   sog: number;
 
-  @IsNumber()
-  @Max(360)
-  @Min(0)
+  @IsCog()
   cog: number;
 
   @IsDateString()

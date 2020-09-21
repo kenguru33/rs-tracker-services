@@ -1,3 +1,4 @@
+import { IsCog, IsMmsi, IsSog } from '@redningsselskapet/class-validator-ais';
 import { AisdataCollectedEvent } from '@redningsselskapet/rs-tracker-services-common';
 import {
   IsDateString,
@@ -8,7 +9,7 @@ import {
 } from 'class-validator';
 
 export class AisdataCollectedEventDto implements AisdataCollectedEvent {
-  @IsNumberString()
+  @IsMmsi()
   mmsi: string;
 
   @IsLatitude()
@@ -17,10 +18,10 @@ export class AisdataCollectedEventDto implements AisdataCollectedEvent {
   @IsLongitude()
   lng: number;
 
-  @IsNumber()
+  @IsSog()
   sog: number;
 
-  @IsNumber()
+  @IsCog()
   cog: number;
 
   @IsDateString()

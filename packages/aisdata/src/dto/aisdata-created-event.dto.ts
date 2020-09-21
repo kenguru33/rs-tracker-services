@@ -1,3 +1,4 @@
+import { IsCog, IsMmsi, IsSog } from '@redningsselskapet/class-validator-ais';
 import {
   AisdataCreatedEvent,
   Patterns,
@@ -16,7 +17,7 @@ export class AisdataCreatedEventDto implements AisdataCreatedEvent {
   @IsString()
   id: string;
 
-  @IsNumberString()
+  @IsMmsi()
   mmsi: string;
 
   @IsLatitude()
@@ -25,10 +26,10 @@ export class AisdataCreatedEventDto implements AisdataCreatedEvent {
   @IsLongitude()
   lng: number;
 
-  @IsNumber()
+  @IsSog()
   sog: number;
 
-  @IsNumber()
+  @IsCog()
   cog: number;
 
   @IsDateString()
