@@ -1,28 +1,29 @@
 import { Aisdata } from '../interfaces/aisdata.interface';
-import { IsNumberString, IsNumber, IsDateString } from 'class-validator'
+import { IsNumberString, IsNumber, IsDateString, IsLatitude, isLongitude, IsLongitude } from 'class-validator'
 import { Transform, Expose } from "class-transformer";
+import { IsCog, IsMmsi, IsSog } from '@redningsselskapet/class-validator-ais';
 export class AisdataDto implements Aisdata {
     
-    @IsNumberString()
+    @IsMmsi()
     @Expose({name: 'MMSI'})
     mmsi: string;
     
-    @IsNumber()
+    @IsLatitude()
     @Expose({name: 'Decimal_Latitude'})
     @Transform(value => parseFloat(value))
     lat: number;
 
-    @IsNumber()
+    @IsLongitude()
     @Expose({name: 'Decimal_Longitude'})
     @Transform(value => parseFloat(value))
     lng: number;
 
-    @IsNumber()
+    @IsSog()
     @Expose({name: 'SOG'})
     @Transform(value => parseFloat(value) || 0)
     sog: number;
 
-    @IsNumber()
+    @IsCog()
     @Expose({name: 'COG'})
     @Transform(value => parseFloat(value) || 0)
     cog: number;
