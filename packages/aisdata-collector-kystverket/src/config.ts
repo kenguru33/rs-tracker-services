@@ -14,5 +14,6 @@ export default () => ({
     login: process.env.KYSTVERKET_USERNAME,
     password: process.env.KYSTVERKET_PASSWORD,
     interval: parseInt(process.env.INTERVAL, 10) || 30000,
+    pubThrottle: parseInt(process.env.KYSTVERKERKET_PUB_THROTTLE) || 200
   },
 });

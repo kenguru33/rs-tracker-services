@@ -15,11 +15,14 @@ import {
   AisdataCollectedEvent,
 } from '@redningsselskapet/rs-tracker-services-common';
 import { AisdataCollectedPublisherService } from './aisdata-collected-publisher.service';
+import { from, interval, of, zip } from 'rxjs';
+import { delay, throttle, switchMap, concatMap } from 'rxjs/operators';
 
 @Injectable()
 export class AppService {
   private axiosIntance: AxiosInstance;
   private config: KystverketConfig;
+  private throttle = 200;
 
   private lastPublihedAisdata: Aisdata[] = [];
 
@@ -43,7 +46,7 @@ export class AppService {
     this.fetchAisData();
   }
 
-  @Interval(5000)
+  @Interval(30000)
   private async fetchAisData() {
     const { url } = this.config;
     const aisdata: any = (await this.axiosIntance.get(url)).data;
@@ -105,15 +108,19 @@ export class AppService {
   }
 
   private publishNewAisdata(aisdata: Aisdata[]) {
-    aisdata.forEach(async data => {
-      const guid = this.aisdataCollectedPublisher.publish(data).subscribe(
-        guid => {
-          this.updateLastPublished(data);
-          this.logger.log('Published Message with GUID: ' + guid);
-        },
-        error => this.logger.error(error),
-      );
-    });
+    // How to delay each item in an observable array
+    const obs = from(aisdata);
+    const timed = interval(this.throttle);
+    const zipped = zip(obs,timed)
+    zipped.subscribe(([aisdata]) => {
+      const guid = this.aisdataCollectedPublisher.publish(aisdata).subscribe(
+              guid => {
+                this.updateLastPublished(aisdata);
+                this.logger.log('Published Message with GUID: ' + guid);
+              },
+              error => this.logger.error(error),
+            );
+    })
   }
 
   getlastPublihedAisdata(): Aisdata[] {
