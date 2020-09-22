@@ -4,8 +4,6 @@ import {
   IsDateString,
   IsLatitude,
   IsLongitude,
-  IsNumber,
-  IsNumberString,
 } from 'class-validator';
 
 export class AisdataCollectedEventDto implements AisdataCollectedEvent {
