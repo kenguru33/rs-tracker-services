@@ -19,27 +19,26 @@ import { AisdataCreatedEventDto } from './dto/aisdata-created-event.dto';
 import { AisdataCollectedEventDto } from './dto/aisdata-collected-event.dto';
 import { CreateAisdataDto } from './dto/create-aisdata.dto';
 import { QueryAisdataByMmsiDto } from './dto/query-aisdata-by-mmsi.dto';
+import { QueryAisdataOneDto } from './dto/query-aisdata-one.dto';
 
 @Controller('/api/aisdata')
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly aisdataCreatedPublisher: AisdataCreatedEventPublisherService,
-    private logger: Logger
+    private logger: Logger,
   ) {}
 
   @Get(':mmsi/:startTime/:endTime')
   async getAisdataByMmsi(
     @Param(new ValidationPipe()) query: QueryAisdataByMmsiDto,
   ) {
-    return this.appService.getAisdata(query)
+    return this.appService.getAisdata(query);
   }
 
-  @Post()
-  async getAisdataByMmsiPost(
-    @Body(new ValidationPipe()) query: QueryAisdataByMmsiDto,
-  ) {
-    return this.appService.getAisdata(query)
+  @Get(':mmsi/:timeStamp')
+  async getAisdataOne(@Param(new ValidationPipe()) query: QueryAisdataOneDto) {
+    return this.appService.getAisdataOne(query);
   }
 
   // this is just for testing - to be removed
@@ -63,7 +62,14 @@ export class AppController {
       const aisdata = await this.appService.addAisdata(data);
       this.logger.log('received: ' + ctx.message.getSubject(), 'aisdata');
       ctx.message.ack();
-      this.aisdataCreatedPublisher.publish(aisdata.toJSON()).subscribe(guid => this.logger.log('published aisdata:created with guid: ' + guid, 'aisdata' ))
+      this.aisdataCreatedPublisher
+        .publish(aisdata.toJSON())
+        .subscribe(guid =>
+          this.logger.log(
+            'published aisdata:created with guid: ' + guid,
+            'aisdata',
+          ),
+        );
     } catch (error) {
       console.log(error);
     }
