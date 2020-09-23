@@ -1,6 +1,6 @@
 {
   "name": "aisdata-collector-kystverket",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "author": "",
   "private": true,
@@ -30,7 +30,7 @@
     "@nestjs/platform-express": "^7.0.0",
     "@nestjs/schedule": "^0.4.0",
     "@redningsselskapet/class-validator-ais": "^1.0.3",
-    "@redningsselskapet/rs-tracker-services-common": "^0.0.6",
+    "@redningsselskapet/rs-tracker-services-common": "^0.0.7",
     "@types/tough-cookie": "^4.0.0",
     "axios": "^0.20.0",
     "axios-cookiejar-support": "^1.0.0",
