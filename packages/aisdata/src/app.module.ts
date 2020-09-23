@@ -1,5 +1,5 @@
 import { NatsStreamingTransport } from '@nestjs-plugins/nestjs-nats-streaming-transport';
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose/dist/mongoose.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -19,6 +19,6 @@ import { AisdataCreatedEventPublisherService } from './publishers/aisdata-create
     ),
   ],
   controllers: [AppController],
-  providers: [AppService, AisdataCreatedEventPublisherService],
+  providers: [AppService, AisdataCreatedEventPublisherService, Logger],
 })
 export class AppModule {}

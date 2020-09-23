@@ -7,7 +7,7 @@ export class QueryAisdataByMmsiDto {
   @IsNumberString({ no_symbols: true })
   mmsi: string;
   @IsDateString()
-  @IsBeforeDate('endTime')
+  // @IsBeforeDate('endTime')
   startTime: string;
   @IsDateString()
   endTime: string;

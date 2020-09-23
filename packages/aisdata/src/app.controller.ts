@@ -1,8 +1,10 @@
 import {
+  Body,
   Controller,
   Get,
+  Logger,
   Param,
-  UsePipes,
+  Post,
   ValidationPipe,
 } from '@nestjs/common';
 import { AppService } from './app.service';
@@ -23,22 +25,31 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly aisdataCreatedPublisher: AisdataCreatedEventPublisherService,
+    private logger: Logger
   ) {}
 
   @Get(':mmsi/:startTime/:endTime')
   async getAisdataByMmsi(
     @Param(new ValidationPipe()) query: QueryAisdataByMmsiDto,
   ) {
-    return query;
+    return this.appService.getAisdata(query)
   }
 
+  @Post()
+  async getAisdataByMmsiPost(
+    @Body(new ValidationPipe()) query: QueryAisdataByMmsiDto,
+  ) {
+    return this.appService.getAisdata(query)
+  }
+
+  // this is just for testing - to be removed
   @EventPattern(Patterns.AisdataCreated)
   async aisdataCreatedHandler(
     @Payload(new ValidationPipe())
     data: AisdataCreatedEventDto,
     @Ctx() ctx: NatsStreamingContext,
   ) {
-    console.log('received data: ', data);
+    this.logger.log('received: ' + ctx.message.getSubject(), 'aisdata');
     ctx.message.ack();
   }
 
@@ -50,9 +61,9 @@ export class AppController {
   ) {
     try {
       const aisdata = await this.appService.addAisdata(data);
+      this.logger.log('received: ' + ctx.message.getSubject(), 'aisdata');
       ctx.message.ack();
-
-      this.aisdataCreatedPublisher.publish(aisdata.toJSON());
+      this.aisdataCreatedPublisher.publish(aisdata.toJSON()).subscribe(guid => this.logger.log('published aisdata:created with guid: ' + guid, 'aisdata' ))
     } catch (error) {
       console.log(error);
     }
