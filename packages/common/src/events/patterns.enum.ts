@@ -1,4 +1,6 @@
 export enum Patterns {
-  AisdataCollected = "collected:aisdata",
-  AisdataCreated = 'created:aisdata'
+  AisdataCollected = "aisdata:collected",
+  AisdataCreated = 'aisdata:created',
+  AisdataMoving = 'aisdata:moving',
+  AisdataHalted = 'aisdata:halted'
 }
