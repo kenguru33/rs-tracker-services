@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moving-vessels-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moving-vessels
+  template:
+    metadata:
+      labels:
+        app: moving-vessels
+    spec:
+      containers:
+        - name: moving-vessels
+          image: banker.azurecr.io/moving-vessels
+          resources:
+            limits:
+              memory: '500Mi'
+              cpu: '500m'
+      imagePullSecrets:
+        - name: azurecr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: moving-vessels-srv
+spec:
+  selector:
+    app: moving-vessels
+  ports:
+    - name: moving-vessels
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

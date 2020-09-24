@@ -62,14 +62,7 @@ export class AppController {
       const aisdata = await this.appService.addAisdata(data);
       this.logger.log('received: ' + ctx.message.getSubject(), 'aisdata');
       ctx.message.ack();
-      this.aisdataCreatedPublisher
-        .publish(aisdata.toJSON())
-        .subscribe(guid =>
-          this.logger.log(
-            'published aisdata:created with guid: ' + guid,
-            'aisdata',
-          ),
-        );
+      this.aisdataCreatedPublisher.publish(aisdata.toJSON());
     } catch (error) {
       console.log(error);
     }

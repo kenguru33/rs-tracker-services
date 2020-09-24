@@ -3,7 +3,8 @@ k8s_yaml([
 	'infra/k8s/aisdata-collector-kystverket-depl.yaml', 
 	'infra/k8s/aisdata-depl.yaml', 
 	'infra/k8s/aisdata-mongo-depl.yaml',
-	'infra/k8s/ingress-srv.yaml'
+	'infra/k8s/ingress-srv.yaml',
+	'infra/k8s/moving-vessels-depl.yaml'
 	])
 
 docker_build('banker.azurecr.io/aisdata','packages/aisdata', 

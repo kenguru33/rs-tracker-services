@@ -19,6 +19,19 @@ import { AisdataCreatedEventPublisherService } from './publishers/aisdata-create
     ),
   ],
   controllers: [AppController],
-  providers: [AppService, AisdataCreatedEventPublisherService, Logger],
+  providers: [
+    {
+      provide: AppService,
+      useClass: AppService,
+    },
+    {
+      provide: AisdataCreatedEventPublisherService,
+      useClass: AisdataCreatedEventPublisherService,
+    },
+    {
+      provide: Logger,
+      useClass: Logger,
+    },
+  ],
 })
 export class AppModule {}

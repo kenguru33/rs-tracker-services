@@ -113,13 +113,14 @@ export class AppService {
     const timed = interval(this.throttle);
     const zipped = zip(obs,timed)
     zipped.subscribe(([aisdata]) => {
-      const guid = this.aisdataCollectedPublisher.publish(aisdata).subscribe(
-              guid => {
-                this.updateLastPublished(aisdata);
-                this.logger.log('Published Message with GUID: ' + guid);
-              },
-              error => this.logger.error(error),
-            );
+      this.aisdataCollectedPublisher.publish(aisdata).add(() => this.updateLastPublished(aisdata))
+      // const guid = this.aisdataCollectedPublisher.publish(aisdata).subscribe(
+      //         guid => {
+      //           this.updateLastPublished(aisdata);
+      //           this.logger.log('Published Message with GUID: ' + guid);
+      //         },
+      //         error => this.logger.error(error),
+      //       );
     })
   }
 
