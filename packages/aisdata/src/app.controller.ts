@@ -48,7 +48,6 @@ export class AppController {
     data: AisdataCreatedEventDto,
     @Ctx() ctx: NatsStreamingContext,
   ) {
-    console.log('KOKOKOKOKOKO')
     this.logger.log('received: ' + ctx.message.getSubject(), 'aisdata');
     ctx.message.ack();
   }
