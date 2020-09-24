@@ -1,6 +1,6 @@
 {
   "name": "moving-vessels",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "author": "",
   "private": true,
@@ -27,7 +27,7 @@
     "@nestjs/core": "^7.0.0",
     "@nestjs/microservices": "^7.4.4",
     "@nestjs/platform-express": "^7.0.0",
-    "@redningsselskapet/rs-tracker-services-common": "0.0.10",
+    "@redningsselskapet/rs-tracker-services-common": "^0.0.11",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "reflect-metadata": "^0.1.13",
