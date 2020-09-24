@@ -19,5 +19,6 @@
   },
   "dependencies": {
     "@nestjs-plugins/nestjs-nats-streaming-transport": "^1.0.14"
-  }
+  },
+  "gitHead": "72fc189a0afb42b45636a71816b32b757c9bbc0c"
 }
