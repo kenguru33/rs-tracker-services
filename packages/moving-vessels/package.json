@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "build:docker": "docker build --squash -t banker.azurecr.io/aisdata --build-arg NPM_TOKEN=$NPM_TOKEN .",
+    "build:docker": "docker build --squash -t banker.azurecr.io/moving-vessels --build-arg NPM_TOKEN=$NPM_TOKEN .",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -27,7 +27,7 @@
     "@nestjs/core": "^7.0.0",
     "@nestjs/microservices": "^7.4.4",
     "@nestjs/platform-express": "^7.0.0",
-    "@redningsselskapet/rs-tracker-services-common": "^0.0.9",
+    "@redningsselskapet/rs-tracker-services-common": "0.0.9",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
     "reflect-metadata": "^0.1.13",

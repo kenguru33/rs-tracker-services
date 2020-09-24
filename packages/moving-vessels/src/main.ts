@@ -6,7 +6,7 @@ async function bootstrap() {
   const options: CustomStrategy = {
     strategy: new Listener(
       'rs-tracker-services' /* clusterID */,
-      'moving-vessels' /* clientID */,
+      'moving-vessel-listener' /* clientID */,
       'moving-vessels-queue-group' /* queueGroupName */,
       {
         url: 'http://nats-streaming-srv:4222',
@@ -22,11 +22,11 @@ async function bootstrap() {
       } /* TransportSubscriptionOptions */,
     ),
   };
-  
 
   // hybrid microservice and web application
   const app = await NestFactory.create(AppModule);
   const microService = app.connectMicroservice(options);
+  console.log(options);
   microService.listen(() => app.listen(3000));
 }
 bootstrap();

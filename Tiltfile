@@ -21,4 +21,12 @@ live_update=[
 	sync('packages/aisdata-collector-kystverket/src', '/app/src')
 ])
 
+docker_build('banker.azurecr.io/moving-vessels','packages/moving-vessels', 
+entrypoint=["npm", "run", "start:dev"], 
+build_args={'NPM_TOKEN': os.environ['NPM_TOKEN']},
+live_update=[
+	sync('packages/moving-vessels/src', '/app/src')
+])
+
+
 allow_k8s_contexts('Aks-Cluster-1')

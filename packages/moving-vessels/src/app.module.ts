@@ -1,12 +1,12 @@
 import { MovingVesselPublisherService } from './publishers/moving-vessel-publisher.service';
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { NatsStreamingTransport } from '@nestjs-plugins/nestjs-nats-streaming-transport';
 
 @Module({
   imports: [],
   controllers: [AppController],
-  providers: [
-        MovingVesselPublisherService, AppService],
+  providers: [AppService, Logger],
 })
 export class AppModule {}
